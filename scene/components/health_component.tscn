@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bf0wgmt48vkr"]
+
+[ext_resource type="Script" uid="uid://c70ht7chem86o" path="res://scene/components/health_component.gd" id="1_uw852"]
+[ext_resource type="PackedScene" uid="uid://bjxukqwpvv3il" path="res://scene/components/damage_text_component.tscn" id="2_0j7e4"]
+
+[node name="HealthComponent" type="Node"]
+script = ExtResource("1_uw852")
+damage_text_scene = ExtResource("2_0j7e4")

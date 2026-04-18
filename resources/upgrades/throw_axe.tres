@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="NewAbility" load_steps=3 format=3 uid="uid://dh2csgp717hdo"]
+
+[ext_resource type="PackedScene" uid="uid://d0c0184yjxkb3" path="res://scene/abilities/axe_ability/axe_ability_controller.tscn" id="1_wwgqf"]
+[ext_resource type="Script" uid="uid://c1pytf0ey1sep" path="res://resources/upgrades/new_ability.gd" id="2_ilx6a"]
+
+[resource]
+script = ExtResource("2_ilx6a")
+new_ability_scene = ExtResource("1_wwgqf")
+id = "throw_axe"
+max_quantity = 1
+name = "Throw axe"
+description = "Spawns the spinning Axe"

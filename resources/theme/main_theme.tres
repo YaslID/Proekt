@@ -1,0 +1,98 @@
+[gd_resource type="Theme" load_steps=18 format=3 uid="uid://b26i4bi5k17c4"]
+
+[ext_resource type="Texture2D" uid="uid://ehfaopjdafd2" path="res://assets/ui_panel.png" id="1_70gfe"]
+[ext_resource type="FontFile" uid="uid://6b05w1ppnudr" path="res://resources/theme/ThaleahFat.ttf" id="1_rjbnf"]
+[ext_resource type="Texture2D" uid="uid://cdd51gnrq6ytp" path="res://assets/ui_button_3.png" id="1_wif3f"]
+[ext_resource type="Texture2D" uid="uid://bxrmme51g2lck" path="res://assets/ui_panel2.png" id="2_jtx1y"]
+[ext_resource type="Texture2D" uid="uid://cjqwutlv0y3ho" path="res://assets/ui_button_1.png" id="2_qmhhu"]
+[ext_resource type="Texture2D" uid="uid://oasegqr7ivbq" path="res://assets/ui_button_2.png" id="3_0exeo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wif3f"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8yoe2"]
+texture = ExtResource("1_wif3f")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cy153"]
+texture = ExtResource("2_qmhhu")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oynps"]
+texture = ExtResource("3_0exeo")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_70gfe"]
+texture = ExtResource("1_70gfe")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+region_rect = Rect2(0, 0, 32, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1ywy2"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+texture = ExtResource("2_jtx1y")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+region_rect = Rect2(0, 0, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bjes5"]
+bg_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wif3f"]
+bg_color = Color(0.98039216, 0.79607844, 0.24313726, 1)
+border_width_left = 2
+border_width_right = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0exeo"]
+bg_color = Color(0.98039216, 0.79607844, 0.24313726, 1)
+border_width_left = 2
+border_width_right = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8yoe2"]
+bg_color = Color(0.98039216, 0.79607844, 0.24313726, 1)
+border_width_left = 2
+border_width_right = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmhhu"]
+border_width_left = 5
+border_width_right = 5
+border_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+
+[resource]
+default_font = ExtResource("1_rjbnf")
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+Button/colors/font_pressed_color = Color(0.84, 0.84, 0.84, 1)
+Button/constants/outline_size = 4
+Button/styles/focus = SubResource("StyleBoxEmpty_wif3f")
+Button/styles/hover = SubResource("StyleBoxTexture_8yoe2")
+Button/styles/normal = SubResource("StyleBoxTexture_cy153")
+Button/styles/pressed = SubResource("StyleBoxTexture_oynps")
+Label/colors/font_outline_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+Label/constants/outline_size = 4
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_70gfe")
+PanelContainer2/base_type = &"PanelContainer"
+PanelContainer2/styles/panel = SubResource("StyleBoxTexture_1ywy2")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_bjes5")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_wif3f")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_0exeo")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_8yoe2")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_qmhhu")

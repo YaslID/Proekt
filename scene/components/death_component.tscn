@@ -1,0 +1,113 @@
+[gd_scene load_steps=15 format=3 uid="uid://cgy8r4okp2pyh"]
+
+[ext_resource type="Script" uid="uid://b18sa21putomt" path="res://scene/components/death_component.gd" id="1_m7agx"]
+[ext_resource type="PackedScene" uid="uid://4lbg7te1kpyd" path="res://scene/components/hit_sound_component.tscn" id="2_m7agx"]
+[ext_resource type="AudioStream" uid="uid://bto64yaqvh60h" path="res://assets/audio/death/hurt1.MP3" id="3_aom14"]
+[ext_resource type="AudioStream" uid="uid://fwc7io4jshvv" path="res://assets/audio/death/hurt2.MP3" id="4_c0cku"]
+[ext_resource type="AudioStream" uid="uid://deb12kcccyveu" path="res://assets/audio/death/hurt3.MP3" id="5_kpbi6"]
+[ext_resource type="AudioStream" uid="uid://bg4ix7043y3lr" path="res://assets/audio/death/hurt4.MP3" id="6_kjdq5"]
+[ext_resource type="AudioStream" uid="uid://d1rsmfqxbys8x" path="res://assets/audio/death/hurt5.MP3" id="7_8msh7"]
+
+[sub_resource type="Animation" id="Animation_m7agx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteOffset/GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_xdsv3"]
+resource_name = "death"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteOffset/GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mh4ll"]
+_data = {
+&"RESET": SubResource("Animation_m7agx"),
+&"death": SubResource("Animation_xdsv3")
+}
+
+[sub_resource type="Curve" id="Curve_m7agx"]
+_data = [Vector2(0, 0.9844358), 0.0, 0.0, 0, 0, Vector2(1e-05, 1), 0.0, 0.0, 0, 0, Vector2(2e-05, 1), 0.0, 0.0, 0, 0, Vector2(3e-05, 1), 0.0, 0.0, 0, 0, Vector2(4e-05, 0.9844358), 0.0, 0.0, 0, 0, Vector2(0.6861703, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 7
+
+[sub_resource type="CurveTexture" id="CurveTexture_mh4ll"]
+curve = SubResource("Curve_m7agx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_axulq"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 15.0
+initial_velocity_min = 85.86
+initial_velocity_max = 174.2
+angular_velocity_min = -112.94001
+angular_velocity_max = 112.94998
+gravity = Vector3(0, 500, 0)
+alpha_curve = SubResource("CurveTexture_mh4ll")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_361iy"]
+streams_count = 5
+stream_0/stream = ExtResource("3_aom14")
+stream_1/stream = ExtResource("4_c0cku")
+stream_2/stream = ExtResource("5_kpbi6")
+stream_3/stream = ExtResource("6_kjdq5")
+stream_4/stream = ExtResource("7_8msh7")
+
+[node name="DeathComponent" type="Node2D"]
+script = ExtResource("1_m7agx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_mh4ll")
+}
+autoplay = "death"
+
+[node name="SpriteOffset" type="Node2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="SpriteOffset"]
+unique_name_in_owner = true
+emitting = false
+amount = 1
+lifetime = 0.8
+one_shot = true
+fixed_fps = 0
+interpolate = false
+process_material = SubResource("ParticleProcessMaterial_axulq")
+
+[node name="HitSoundComponent" parent="." instance=ExtResource("2_m7agx")]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_361iy")
+bus = &"SFX"

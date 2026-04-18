@@ -1,0 +1,190 @@
+[gd_scene load_steps=29 format=3 uid="uid://b66fvmqgbr76x"]
+
+[ext_resource type="Script" uid="uid://cdvw3ook8axso" path="res://scene/game_objects/player/player.gd" id="1_oypl4"]
+[ext_resource type="Texture2D" uid="uid://0gvojidn2dbh" path="res://scene/game_objects/player/knight_f_hit_anim_f0.png" id="1_pisg7"]
+[ext_resource type="PackedScene" uid="uid://do1he0o7esrkk" path="res://scene/ui/mobile_controller.tscn" id="2_ab7uj"]
+[ext_resource type="Texture2D" uid="uid://027qnyfck8kl" path="res://scene/game_objects/player/knight_f_idle_anim_f0.png" id="2_oypl4"]
+[ext_resource type="PackedScene" uid="uid://chqco2ecinabv" path="res://scene/abilities/attack_ability/attack_controller.tscn" id="2_qjg4s"]
+[ext_resource type="PackedScene" uid="uid://bf0wgmt48vkr" path="res://scene/components/health_component.tscn" id="3_bjes5"]
+[ext_resource type="Texture2D" uid="uid://cr3tfm6mfjmv5" path="res://scene/game_objects/player/knight_f_idle_anim_f1.png" id="3_qjg4s"]
+[ext_resource type="PackedScene" uid="uid://7tx0gsh5ig67" path="res://scene/components/movement_component.tscn" id="4_1tyhs"]
+[ext_resource type="Texture2D" uid="uid://ds4o268dbdqv6" path="res://scene/game_objects/player/knight_f_idle_anim_f2.png" id="4_1wtbu"]
+[ext_resource type="PackedScene" uid="uid://0k322jdmmdiu" path="res://scene/components/flash_component.tscn" id="4_fpv3a"]
+[ext_resource type="Texture2D" uid="uid://lq0v2aypwwli" path="res://scene/game_objects/player/knight_f_idle_anim_f3.png" id="5_p3aiu"]
+[ext_resource type="Texture2D" uid="uid://com03hxjpd1ip" path="res://scene/game_objects/player/knight_f_run_anim_f0.png" id="6_f5r2w"]
+[ext_resource type="Texture2D" uid="uid://7huhudhrr2ou" path="res://scene/game_objects/player/knight_f_run_anim_f1.png" id="7_oen5c"]
+[ext_resource type="Texture2D" uid="uid://dfgnijhpsii21" path="res://scene/game_objects/player/knight_f_run_anim_f2.png" id="8_5g408"]
+[ext_resource type="Texture2D" uid="uid://buq2vmrjaj207" path="res://scene/game_objects/player/knight_f_run_anim_f3.png" id="9_sc4n2"]
+[ext_resource type="AudioStream" uid="uid://oip7k7oyd3j0" path="res://assets/audio/hit/damage1.ogg" id="15_amje0"]
+[ext_resource type="AudioStream" uid="uid://be6pwkk81v41m" path="res://assets/audio/hit/damage2.ogg" id="16_ab7uj"]
+[ext_resource type="AudioStream" uid="uid://2pk0cpo8w1vr" path="res://assets/audio/hit/damage3.ogg" id="17_0nchg"]
+[ext_resource type="AudioStream" uid="uid://dqpmg6jomunwt" path="res://assets/audio/hit/damage4.ogg" id="18_ptoag"]
+[ext_resource type="AudioStream" uid="uid://bpmcqcbx7qkyw" path="res://assets/audio/hit/damage5.ogg" id="19_e2sng"]
+
+[sub_resource type="Shader" id="Shader_ab7uj"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform float percent: hint_range(0.0, 1.0, 0.1);
+
+void fragment() {
+	vec4 sprite_color = texture(TEXTURE, UV);
+	vec4 flash_color = mix(sprite_color, vec4(1.0, 1.0, 1.0, sprite_color.a), percent);
+	COLOR = flash_color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ygly"]
+resource_local_to_scene = true
+shader = SubResource("Shader_ab7uj")
+shader_parameter/percent = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpv3a"]
+bg_color = Color(0.8627451, 0.2901961, 0.48235294, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_heqc5"]
+radius = 34.0147
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lrcci"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pisg7")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_oypl4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_qjg4s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1wtbu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_p3aiu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_f5r2w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_oen5c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_5g408")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_sc4n2")
+}],
+"loop": true,
+"name": &"run",
+"speed": 7.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fspl2"]
+radius = 5.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fpv3a"]
+radius = 5.0
+height = 16.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_vedbf"]
+streams_count = 5
+stream_0/stream = ExtResource("15_amje0")
+stream_1/stream = ExtResource("16_ab7uj")
+stream_2/stream = ExtResource("17_0nchg")
+stream_3/stream = ExtResource("18_ptoag")
+stream_4/stream = ExtResource("19_e2sng")
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+modulate = Color(0.44705883, 0.8392157, 0.80784315, 1)
+collision_layer = 2
+script = ExtResource("1_oypl4")
+
+[node name="MobileController" parent="." instance=ExtResource("2_ab7uj")]
+layer = 0
+
+[node name="AbilityManager" type="Node" parent="."]
+
+[node name="AttackController" parent="AbilityManager" instance=ExtResource("2_qjg4s")]
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_bjes5")]
+
+[node name="MovementComponent" parent="." instance=ExtResource("4_1tyhs")]
+max_speed = 90
+acceleration = 25.0
+
+[node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("4_fpv3a")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../AnimatedSprite2D")
+flash_material = SubResource("ShaderMaterial_0ygly")
+
+[node name="GracePeriod" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="HealthRegenTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(24, 4)
+offset_left = -12.0
+offset_top = 2.0
+offset_right = 12.0
+offset_bottom = 6.0
+pivot_offset = Vector2(12, 2)
+theme_override_styles/fill = SubResource("StyleBoxFlat_fpv3a")
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="PickUpArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_heqc5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -14)
+sprite_frames = SubResource("SpriteFrames_lrcci")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_fspl2")
+
+[node name="PlayerHurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHurtBox"]
+position = Vector2(0, -7)
+shape = SubResource("CapsuleShape2D_fpv3a")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_vedbf")
+pitch_scale = 1.5
+bus = &"SFX"
+
+[connection signal="timeout" from="GracePeriod" to="." method="_on_grace_period_timeout"]
+[connection signal="timeout" from="HealthRegenTimer" to="." method="_on_health_regen_timer_timeout"]
+[connection signal="area_entered" from="PlayerHurtBox" to="." method="_on_player_hurt_box_area_entered"]
+[connection signal="area_exited" from="PlayerHurtBox" to="." method="_on_player_hurt_box_area_exited"]

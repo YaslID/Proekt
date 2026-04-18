@@ -1,0 +1,109 @@
+[gd_scene load_steps=23 format=3 uid="uid://c0mbkvst7y5do"]
+
+[ext_resource type="Script" uid="uid://byodadoc1i32p" path="res://scene/game_objects/skeleton/skeleton.gd" id="1_cvhg0"]
+[ext_resource type="Texture2D" uid="uid://8ipi64ev8j81" path="res://scene/game_objects/skeleton/tiny_zombie_idle_anim_f0.png" id="1_m7h2p"]
+[ext_resource type="Texture2D" uid="uid://bujmsk2vt5abl" path="res://scene/game_objects/skeleton/tiny_zombie_idle_anim_f1.png" id="2_cvhg0"]
+[ext_resource type="PackedScene" uid="uid://cgy8r4okp2pyh" path="res://scene/components/death_component.tscn" id="2_iexf5"]
+[ext_resource type="PackedScene" uid="uid://bf0wgmt48vkr" path="res://scene/components/health_component.tscn" id="2_v6f7m"]
+[ext_resource type="Texture2D" uid="uid://da544k21wo438" path="res://scene/game_objects/skeleton/tiny_zombie_idle_anim_f2.png" id="3_ilprq"]
+[ext_resource type="PackedScene" uid="uid://d2bgoo5gtpkrq" path="res://scene/components/exp_bottle_drop_component.tscn" id="3_nsqij"]
+[ext_resource type="PackedScene" uid="uid://babhhvt7p4xgy" path="res://scene/components/hurt_box_component.tscn" id="4_0awm5"]
+[ext_resource type="Texture2D" uid="uid://dykmocgxv77ew" path="res://scene/game_objects/skeleton/tiny_zombie_idle_anim_f3.png" id="4_jg1an"]
+[ext_resource type="Texture2D" uid="uid://ccvpe7ruwjcun" path="res://scene/game_objects/skeleton/tiny_zombie_run_anim_f0.png" id="5_8tpdc"]
+[ext_resource type="Texture2D" uid="uid://b7vn6r55by77x" path="res://scene/game_objects/skeleton/tiny_zombie_run_anim_f1.png" id="6_b1vef"]
+[ext_resource type="PackedScene" uid="uid://7tx0gsh5ig67" path="res://scene/components/movement_component.tscn" id="6_gbsj3"]
+[ext_resource type="Texture2D" uid="uid://bt2512besfuqj" path="res://scene/game_objects/skeleton/tiny_zombie_run_anim_f2.png" id="7_063ar"]
+[ext_resource type="PackedScene" uid="uid://0k322jdmmdiu" path="res://scene/components/flash_component.tscn" id="7_nxjpb"]
+[ext_resource type="Shader" uid="uid://bq5q66uuarmcw" path="res://scene/components/flash_component.gdshader" id="8_0euo6"]
+[ext_resource type="Texture2D" uid="uid://6gyamdxe28kp" path="res://scene/game_objects/skeleton/tiny_zombie_run_anim_f3.png" id="8_e51fn"]
+[ext_resource type="PackedScene" uid="uid://4lbg7te1kpyd" path="res://scene/components/hit_sound_component.tscn" id="9_dwu0a"]
+[ext_resource type="PackedScene" uid="uid://bnf5vv8lbpllp" path="res://scene/components/enemy_hit_box_component.tscn" id="18_dwu0a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y4805"]
+resource_local_to_scene = true
+shader = ExtResource("8_0euo6")
+shader_parameter/percent = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iexf5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7fnn5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_m7h2p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_cvhg0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ilprq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_jg1an")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_8tpdc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_b1vef")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_063ar")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_e51fn")
+}],
+"loop": true,
+"name": &"run",
+"speed": 7.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ilprq"]
+radius = 4.0
+
+[node name="Skeleton" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_cvhg0")
+death_scene = ExtResource("2_iexf5")
+sprite = ExtResource("1_m7h2p")
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_v6f7m")]
+
+[node name="ExpBottleDropComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_nsqij")]
+health_component = NodePath("../HealthComponent")
+
+[node name="MovementComponent" parent="." instance=ExtResource("6_gbsj3")]
+
+[node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("7_nxjpb")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../AnimatedSprite2D")
+flash_material = SubResource("ShaderMaterial_y4805")
+
+[node name="HitSoundComponent" parent="." instance=ExtResource("9_dwu0a")]
+
+[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("health_component", "hit_sound_component") instance=ExtResource("4_0awm5")]
+health_component = NodePath("../HealthComponent")
+hit_sound_component = NodePath("../HitSoundComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_iexf5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7fnn5")
+animation = &"run"
+autoplay = "idle"
+frame_progress = 0.7626422
+offset = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_ilprq")
+
+[node name="EnemyHitBox" parent="." instance=ExtResource("18_dwu0a")]

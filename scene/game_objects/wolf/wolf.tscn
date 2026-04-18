@@ -1,0 +1,113 @@
+[gd_scene load_steps=23 format=3 uid="uid://clktawat0d5hd"]
+
+[ext_resource type="Script" uid="uid://byodadoc1i32p" path="res://scene/game_objects/skeleton/skeleton.gd" id="1_n3ixc"]
+[ext_resource type="PackedScene" uid="uid://cgy8r4okp2pyh" path="res://scene/components/death_component.tscn" id="2_7sjay"]
+[ext_resource type="Texture2D" uid="uid://c1x7e3260m2dn" path="res://scene/game_objects/wolf/Wolf_Idle_1.png" id="3_dqxui"]
+[ext_resource type="PackedScene" uid="uid://bf0wgmt48vkr" path="res://scene/components/health_component.tscn" id="4_khu86"]
+[ext_resource type="PackedScene" uid="uid://d2bgoo5gtpkrq" path="res://scene/components/exp_bottle_drop_component.tscn" id="5_bwp68"]
+[ext_resource type="PackedScene" uid="uid://7tx0gsh5ig67" path="res://scene/components/movement_component.tscn" id="6_lg8qj"]
+[ext_resource type="PackedScene" uid="uid://0k322jdmmdiu" path="res://scene/components/flash_component.tscn" id="7_e28oc"]
+[ext_resource type="Shader" uid="uid://bq5q66uuarmcw" path="res://scene/components/flash_component.gdshader" id="8_86ifq"]
+[ext_resource type="PackedScene" uid="uid://4lbg7te1kpyd" path="res://scene/components/hit_sound_component.tscn" id="9_cptm6"]
+[ext_resource type="PackedScene" uid="uid://babhhvt7p4xgy" path="res://scene/components/hurt_box_component.tscn" id="10_vugkc"]
+[ext_resource type="Texture2D" uid="uid://v66068g4phvh" path="res://scene/game_objects/wolf/Wolf_Idle_2.png" id="11_iy8sc"]
+[ext_resource type="Texture2D" uid="uid://bq1ddcjsc6thr" path="res://scene/game_objects/wolf/Wolf_Idle_3.png" id="12_5sfa3"]
+[ext_resource type="Texture2D" uid="uid://dne6c0ripsha" path="res://scene/game_objects/wolf/Wolf_Idle_4.png" id="13_hj1x3"]
+[ext_resource type="Texture2D" uid="uid://jhn2m1c5yfsl" path="res://scene/game_objects/wolf/Wolf_Walk_1.png" id="14_w6ujk"]
+[ext_resource type="Texture2D" uid="uid://dbsefob7y06qe" path="res://scene/game_objects/wolf/Wolf_Walk_2.png" id="15_4db1b"]
+[ext_resource type="Texture2D" uid="uid://bvhgulmboybdi" path="res://scene/game_objects/wolf/Wolf_Walk_3.png" id="16_q8q34"]
+[ext_resource type="Texture2D" uid="uid://d2r3xcd5f04ge" path="res://scene/game_objects/wolf/Wolf_Walk_4.png" id="17_6v721"]
+[ext_resource type="PackedScene" uid="uid://bnf5vv8lbpllp" path="res://scene/components/enemy_hit_box_component.tscn" id="18_7sjay"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y4805"]
+resource_local_to_scene = true
+shader = ExtResource("8_86ifq")
+shader_parameter/percent = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iexf5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7fnn5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_dqxui")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_iy8sc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_5sfa3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_hj1x3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_w6ujk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_4db1b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_q8q34")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_6v721")
+}],
+"loop": true,
+"name": &"run",
+"speed": 7.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ilprq"]
+radius = 4.0
+
+[node name="Wolf" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_n3ixc")
+death_scene = ExtResource("2_7sjay")
+sprite = ExtResource("3_dqxui")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_khu86")]
+max_health = 30.0
+
+[node name="ExpBottleDropComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_bwp68")]
+health_component = NodePath("../HealthComponent")
+
+[node name="MovementComponent" parent="." instance=ExtResource("6_lg8qj")]
+max_speed = 150
+acceleration = 0.5
+
+[node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("7_e28oc")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../AnimatedSprite2D")
+flash_material = SubResource("ShaderMaterial_y4805")
+
+[node name="HitSoundComponent" parent="." instance=ExtResource("9_cptm6")]
+
+[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("health_component", "hit_sound_component") instance=ExtResource("10_vugkc")]
+health_component = NodePath("../HealthComponent")
+hit_sound_component = NodePath("../HitSoundComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_iexf5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -7)
+sprite_frames = SubResource("SpriteFrames_7fnn5")
+animation = &"run"
+autoplay = "idle"
+offset = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_ilprq")
+
+[node name="EnemyHitBox" parent="." instance=ExtResource("18_7sjay")]
+damage = 3

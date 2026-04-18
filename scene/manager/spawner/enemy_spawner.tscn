@@ -1,0 +1,21 @@
+[gd_scene load_steps=7 format=3 uid="uid://c5j60uvok08fk"]
+
+[ext_resource type="Script" uid="uid://ckheh0newa3wv" path="res://scene/manager/spawner/enemy_spawner.gd" id="1_0jpma"]
+[ext_resource type="PackedScene" uid="uid://c0mbkvst7y5do" path="res://scene/game_objects/skeleton/skeleton.tscn" id="2_ciet3"]
+[ext_resource type="PackedScene" uid="uid://dr2xswnktiqdk" path="res://scene/game_objects/goblin/goblin.tscn" id="3_daxs4"]
+[ext_resource type="PackedScene" uid="uid://clktawat0d5hd" path="res://scene/game_objects/wolf/wolf.tscn" id="4_2ji5o"]
+[ext_resource type="PackedScene" uid="uid://dihgds2g8x3ab" path="res://scene/game_objects/mini_boss/mini_boss.tscn" id="5_mw1y3"]
+[ext_resource type="PackedScene" uid="uid://b3j4h8sqbo2oe" path="res://scene/game_objects/mini_boss_2/mini_boss_2.tscn" id="6_l2ex3"]
+
+[node name="EnemySpawner" type="Node"]
+script = ExtResource("1_0jpma")
+skeleton_scene = ExtResource("2_ciet3")
+goblin_scene = ExtResource("3_daxs4")
+wolf_scene = ExtResource("4_2ji5o")
+mini_boss_scene = ExtResource("5_mw1y3")
+mini_boss_2scene = ExtResource("6_l2ex3")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

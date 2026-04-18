@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnf5vv8lbpllp"]
+
+[ext_resource type="Script" uid="uid://i51tefyx10v8" path="res://scene/components/enemy_hit_box_component.gd" id="1_1p6vw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0awm5"]
+radius = 5.0
+
+[node name="EnemyHitBox" type="Area2D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_1p6vw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_0awm5")

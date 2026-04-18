@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b63oa58uvxxm2"]
+
+[ext_resource type="AudioStream" uid="uid://dbmux75pqfue" path="res://assets/audio/music/29. Observatory.mp3" id="1_thxfx"]
+
+[node name="MusicPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_thxfx")
+volume_db = -3.0
+bus = &"Music"
